@@ -1,3 +1,4 @@
+import 'package:brummaps/googleMaps/google_maps_page.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -12,6 +13,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         // is not restarted.
         primarySwatch: Colors.blue,
@@ -27,7 +29,27 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(),
+      body: Center(
+        child: TextButton(
+          child: const Text("Ouvrir la map"),
+          onPressed: () => Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => Stack(
+                children: [
+                  Stack(
+                    children: const <Widget>[GoogleMapsPage()],
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+      // Stack(
+      //   children: <Widget>[
+      //     GoogleMapsPage()
+      //   ],
+      // ),
     );
   }
 }
