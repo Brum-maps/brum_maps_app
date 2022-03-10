@@ -38,6 +38,9 @@ dependencies:
   geolocator: ^8.2.0
   geocoding: ^2.0.4
   flutter_polyline_points: ^1.0.0
+  equatable: ^2.0.3
+  flutter_bloc: ^8.0.1
+  badges: ^2.0.2
 
 dev_dependencies:
   flutter_test:
