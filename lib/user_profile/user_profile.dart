@@ -1,0 +1,1 @@
+export 'view/user_profile_view.dart';
