@@ -24,12 +24,6 @@ class _MapsPageState extends State<MapsPage> {
           return Container();
         }
         return Scaffold(
-          appBar: AppBar(
-            backgroundColor: Colors.transparent,
-            elevation: 0,
-            toolbarHeight: 0,
-          ),
-          extendBodyBehindAppBar: true,
           body: Stack(
             // LatLng(48.849784, 2.392003)
             children: [

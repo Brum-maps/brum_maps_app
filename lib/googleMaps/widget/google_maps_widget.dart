@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
@@ -226,117 +227,185 @@ class _GoogleMapsWidgetState extends State<GoogleMapsWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      alignment: Alignment.topRight,
-      children: [
-        GoogleMap(
-          markers: Set<Marker>.from(markers),
-          polylines: Set<Polyline>.of(polylines.values),
-          initialCameraPosition: _initialLocation,
-          myLocationEnabled: true,
-          myLocationButtonEnabled: false,
-          mapType: MapType.normal,
-          zoomGesturesEnabled: true,
-          zoomControlsEnabled: false,
-          onMapCreated: (GoogleMapController controller) {
-            mapController = controller;
-            _getCurrentLocation();
-          },
-        ),
-        SafeArea(
-          child: Container(
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: Colors.grey.withOpacity(0.7)),
-            margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                GestureDetector(
-                  child: Container(
-                    decoration: const BoxDecoration(
-                        border: Border(bottom: BorderSide(color: Colors.grey))),
-                    padding: const EdgeInsets.all(10),
-                    child: const Icon(
-                      Icons.route_outlined,
-                      size: 30,
-                      color: Colors.white,
-                    ),
-                  ),
-                  onTap: () {},
-                ),
-                GestureDetector(
-                  child: Container(
-                    decoration: const BoxDecoration(
-                        border: Border(bottom: BorderSide(color: Colors.grey))),
-                    padding: const EdgeInsets.all(10),
-                    child: const Icon(
-                      Icons.location_on_outlined,
-                      size: 30,
-                      color: Colors.white,
-                    ),
-                  ),
-                  onTap: () {
-                    var firstStep = widget.steps[0].latLng;
-                    var lastStep = widget.steps[widget.steps.length - 1].latLng;
-                    double miny = (firstStep!.latitude <= lastStep!.latitude)
-                        ? firstStep.latitude
-                        : lastStep.latitude;
-                    double minx = (firstStep.longitude <= lastStep.longitude)
-                        ? firstStep.longitude
-                        : lastStep.longitude;
-                    double maxy = (firstStep.latitude <= lastStep.latitude)
-                        ? lastStep.latitude
-                        : firstStep.latitude;
-                    double maxx = (firstStep.longitude <= lastStep.longitude)
-                        ? lastStep.longitude
-                        : firstStep.longitude;
-
-                    double southWestLatitude = miny;
-                    double southWestLongitude = minx;
-
-                    double northEastLatitude = maxy;
-                    double northEastLongitude = maxx;
-
-// Accommodate the two locations within the
-// camera view of the map
-                    mapController?.animateCamera(
-                      CameraUpdate.newLatLngBounds(
-                        LatLngBounds(
-                          northeast:
-                              LatLng(northEastLatitude, northEastLongitude),
-                          southwest:
-                              LatLng(southWestLatitude, southWestLongitude),
-                        ),
-                        100.0,
-                      ),
-                    );
-                  },
-                ),
-                GestureDetector(
-                  child: Container(
-                    padding: const EdgeInsets.all(10),
-                    child: const Icon(
-                      Icons.location_searching_outlined,
-                      size: 30,
-                      color: Colors.white,
-                    ),
-                  ),
-                  onTap: () {
-                    _getCurrentLocation();
-                    mapController?.animateCamera(
-                      CameraUpdate.newLatLng(
-                        LatLng(_currentPosition.latitude,
-                            _currentPosition.longitude),
-                      ),
-                    );
-                  },
-                ),
-              ],
+    return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        leading: Container(
+          margin: const EdgeInsets.only(left: 10),
+          decoration:
+              const BoxDecoration(color: Colors.white, shape: BoxShape.circle),
+          child: IconButton(
+            icon: const Icon(
+              Icons.close_rounded,
+              color: Colors.black,
             ),
+            onPressed: () {
+              showDialog(
+                  context: context,
+                  builder: (context) => CupertinoAlertDialog(
+                        content: const Text(
+                            "Voulez-vous vraiment quitter votre parcours ?"),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context)
+                                  .popUntil((route) => route.isFirst);
+                            },
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(vertical: 10),
+                              child: const Text(
+                                "Oui",
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(vertical: 10),
+                              child: const Text("Non",
+                                  textAlign: TextAlign.center),
+                            ),
+                          ),
+                        ],
+                      ));
+            },
           ),
         ),
-      ],
+        actions: [
+          Container(
+            margin: const EdgeInsets.only(right: 10),
+            decoration: const BoxDecoration(
+                color: Colors.white, shape: BoxShape.circle),
+            child: IconButton(
+              icon: const Icon(
+                Icons.info_outline_rounded,
+                color: Colors.black,
+              ),
+              onPressed: () {},
+            ),
+          ),
+        ],
+      ),
+      extendBodyBehindAppBar: true,
+      body: Stack(
+        alignment: Alignment.topRight,
+        children: [
+          GoogleMap(
+            markers: Set<Marker>.from(markers),
+            polylines: Set<Polyline>.of(polylines.values),
+            initialCameraPosition: _initialLocation,
+            myLocationEnabled: true,
+            myLocationButtonEnabled: false,
+            mapType: MapType.normal,
+            zoomGesturesEnabled: true,
+            zoomControlsEnabled: false,
+            onMapCreated: (GoogleMapController controller) {
+              mapController = controller;
+              _getCurrentLocation();
+            },
+          ),
+          SafeArea(
+            child: Container(
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: Colors.grey.withOpacity(0.7)),
+              margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  GestureDetector(
+                    child: Container(
+                      decoration: const BoxDecoration(
+                          border:
+                              Border(bottom: BorderSide(color: Colors.grey))),
+                      padding: const EdgeInsets.all(10),
+                      child: const Icon(
+                        Icons.route_outlined,
+                        size: 30,
+                        color: Colors.white,
+                      ),
+                    ),
+                    onTap: () {},
+                  ),
+                  GestureDetector(
+                    child: Container(
+                      decoration: const BoxDecoration(
+                          border:
+                              Border(bottom: BorderSide(color: Colors.grey))),
+                      padding: const EdgeInsets.all(10),
+                      child: const Icon(
+                        Icons.location_on_outlined,
+                        size: 30,
+                        color: Colors.white,
+                      ),
+                    ),
+                    onTap: () {
+                      var firstStep = widget.steps[0].latLng;
+                      var lastStep =
+                          widget.steps[widget.steps.length - 1].latLng;
+                      double miny = (firstStep!.latitude <= lastStep!.latitude)
+                          ? firstStep.latitude
+                          : lastStep.latitude;
+                      double minx = (firstStep.longitude <= lastStep.longitude)
+                          ? firstStep.longitude
+                          : lastStep.longitude;
+                      double maxy = (firstStep.latitude <= lastStep.latitude)
+                          ? lastStep.latitude
+                          : firstStep.latitude;
+                      double maxx = (firstStep.longitude <= lastStep.longitude)
+                          ? lastStep.longitude
+                          : firstStep.longitude;
+
+                      double southWestLatitude = miny;
+                      double southWestLongitude = minx;
+
+                      double northEastLatitude = maxy;
+                      double northEastLongitude = maxx;
+
+                      // Accommodate the two locations within the
+                      // camera view of the map
+                      mapController?.animateCamera(
+                        CameraUpdate.newLatLngBounds(
+                          LatLngBounds(
+                            northeast:
+                                LatLng(northEastLatitude, northEastLongitude),
+                            southwest:
+                                LatLng(southWestLatitude, southWestLongitude),
+                          ),
+                          100.0,
+                        ),
+                      );
+                    },
+                  ),
+                  GestureDetector(
+                    child: Container(
+                      padding: const EdgeInsets.all(10),
+                      child: const Icon(
+                        Icons.location_searching_outlined,
+                        size: 30,
+                        color: Colors.white,
+                      ),
+                    ),
+                    onTap: () {
+                      _getCurrentLocation();
+                      mapController?.animateCamera(
+                        CameraUpdate.newLatLng(
+                          LatLng(_currentPosition.latitude,
+                              _currentPosition.longitude),
+                        ),
+                      );
+                    },
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
