@@ -15,7 +15,7 @@ class CustomeFormField extends StatelessWidget {
         label: Text(label),
         focusColor: const Color(0xFFAE9387),
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(30),
         ),
       ),
     );
