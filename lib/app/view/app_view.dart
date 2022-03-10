@@ -10,11 +10,17 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: BlocProvider<AuthenticationCubit>(
+    return BlocProvider<AuthenticationCubit>(
           create: (_) => AuthenticationCubit(),
-          child: const AppView(),
-        ),
+          child: MaterialApp(
+              debugShowCheckedModeBanner: false,
+              theme: ThemeData(
+                  appBarTheme: const AppBarTheme(
+                    backgroundColor: Color(0xFFAE9387),
+                  )
+              ),
+              home: const AppView()
+          ),
     );
   }
 }

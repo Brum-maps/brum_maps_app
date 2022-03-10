@@ -2,6 +2,7 @@ import 'package:brummaps/authentication/authentication.dart';
 import 'package:brummaps/login/widget/custom_form_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class LoginPage extends StatelessWidget {
   static Page page() => const MaterialPage<Widget>(child: LoginPage());
@@ -35,13 +36,33 @@ class LoginPage extends StatelessWidget {
                     controller: TextEditingController(),
                     label: 'password',
                   ),
+                  const SizedBox(
+                    height: 10,
+                  ),
                   InkWell(
                       onTap: () {
                         context
                             .read<AuthenticationCubit>()
                             .login(username: 'salayna', password: 'password');
                       },
-                      child: const Text('Log In'))
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          color: const Color(0xFFAE9387)
+                        ),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 10,
+                              horizontal: 15
+                            ),
+                            child: Text(
+                              'LOGIN',
+                              style: GoogleFonts.montserrat(
+                                color: Colors.white,
+                                fontSize: 20
+                              ),
+                            ),
+                          ),),)
                 ]),
           ),
         ),
