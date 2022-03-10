@@ -1,3 +1,4 @@
+import 'package:brummaps/last_routes/view/last_routes_view.dart';
 import 'package:brummaps/user_profile/user_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -49,7 +50,12 @@ class AppDrawer extends StatelessWidget {
                       Icons.route_outlined
                     ),
                     onTap: (){
-                      print('Navigate to My last reservations');
+                      Navigator.of(context).push(
+                          MaterialPageRoute(builder: (context) {
+                            return LastRoutesPage();
+                          },
+                          )
+                      );
                     },
                   ),
                   ListTile(
@@ -58,7 +64,6 @@ class AppDrawer extends StatelessWidget {
                         Icons.logout
                     ),
                     onTap: (){
-                      print('Navigate to My last reservations');
                     },
                   ),
                 ],
