@@ -25,10 +25,14 @@ class TinderPage extends StatelessWidget {
                     style:
                         TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
               ),
-              const Expanded(
+              Expanded(
                 child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20),
-                  child: TinderCard(),
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Stack(
+                    children: const [
+                      TinderCard(),
+                    ],
+                  ),
                 ),
               ),
               Padding(

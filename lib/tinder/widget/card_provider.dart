@@ -1,3 +1,4 @@
+import 'package:brummaps/model/model.dart' as step;
 import 'package:flutter/material.dart';
 
 enum CardStatus { like, dislike }
@@ -7,6 +8,9 @@ class CardProvider extends ChangeNotifier {
   double _angle = 0;
   Offset _position = Offset.zero;
   Size _screenSize = Size.zero;
+  List<step.Step>? steps;
+
+  CardProvider({this.steps});
 
   bool get isDragging => _isDragging;
   Offset get position => _position;
@@ -81,7 +85,7 @@ class CardProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // Future<void> _nextCard() async {
-
-  // }
+  Future<void> _nextCard() async {
+    
+  }
 }
