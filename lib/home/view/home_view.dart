@@ -1,3 +1,5 @@
+import 'package:brummaps/home/widget/drawer.dart';
+import 'package:brummaps/user_profile/user_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -7,6 +9,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
+      drawer: AppDrawer(),
       appBar: AppBar(
         title: const Text("Parcours"),
       ),
