@@ -1,5 +1,8 @@
+
 import 'package:brummaps/googleMaps/view/maps_page.dart';
 import 'package:brummaps/tinder/cubit/tinder_cubit.dart';
+import 'package:brummaps/home/home.dart';
+import 'package:brummaps/home/widget/drawer.dart';
 import 'package:brummaps/tinder/widget/card_provider.dart';
 import 'package:brummaps/tinder/widget/tinder_card.dart';
 import 'package:flutter/material.dart';

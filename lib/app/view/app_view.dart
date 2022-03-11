@@ -39,9 +39,7 @@ class AppView extends StatelessWidget {
         switch (state.status) {
           case AuthenticationStatus.authenticated:
             return [
-              // MapsPage.page()
               TinderPage.page()
-              // HomePage.page()
             ];
           case AuthenticationStatus.unauthenticated:
             return [LoginPage.page()];
