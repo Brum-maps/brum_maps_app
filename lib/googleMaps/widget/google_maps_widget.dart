@@ -7,19 +7,15 @@ import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:brummaps/model/step.dart' as step;
 
 class GoogleMapsWidget extends StatefulWidget {
-  // final double? startLatitude;
-  // final double? startLongitude;
-  // final double? destinationLatitude;
-  // final double? destinationLongitude;
   final List<step.Step> steps;
+  final void Function(bool) onClick;
+  final bool showItinary;
 
   const GoogleMapsWidget(
       {Key? key,
-      // this.startLatitude,
-      // this.startLongitude,
-      // this.destinationLatitude,
-      // this.destinationLongitude,
-      required this.steps})
+      required this.steps,
+      required this.onClick,
+      required this.showItinary})
       : super(key: key);
 
   @override
@@ -231,26 +227,31 @@ class _GoogleMapsWidgetState extends State<GoogleMapsWidget> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.transparent,
-        leading: Container(
-          margin: const EdgeInsets.only(left: 10),
-          decoration:
-              const BoxDecoration(color: Colors.white, shape: BoxShape.circle),
-          child: IconButton(
-            icon: const Icon(
-              Icons.close_rounded,
-              color: Colors.black,
-            ),
-            onPressed: () {
-              showDialog(
-                  context: context,
-                  builder: (context) => CupertinoAlertDialog(
+        leading: widget.showItinary
+            ? null
+            : Container(
+                margin: const EdgeInsets.only(left: 10),
+                decoration: const BoxDecoration(
+                    color: Colors.white, shape: BoxShape.circle),
+                child: IconButton(
+                  icon: const Icon(
+                    Icons.close_rounded,
+                    color: Colors.black,
+                  ),
+                  onPressed: () {
+                    bool hasToClose = false;
+                    showDialog(
+                      context: context,
+                      builder: (context) => CupertinoAlertDialog(
                         content: const Text(
                             "Voulez-vous vraiment quitter votre parcours ?"),
                         actions: [
                           TextButton(
                             onPressed: () {
-                              Navigator.of(context)
-                                  .popUntil((route) => route.isFirst);
+                              hasToClose = true;
+                              Navigator.of(context).popUntil((route) {
+                                return route.isFirst;
+                              });
                             },
                             child: Container(
                               padding: const EdgeInsets.symmetric(vertical: 10),
@@ -271,10 +272,12 @@ class _GoogleMapsWidgetState extends State<GoogleMapsWidget> {
                             ),
                           ),
                         ],
-                      ));
-            },
-          ),
-        ),
+                      ),
+                    ).then((value) =>
+                        hasToClose ? Navigator.of(context).pop() : null);
+                  },
+                ),
+              ),
         actions: [
           Container(
             margin: const EdgeInsets.only(right: 10),
@@ -329,7 +332,9 @@ class _GoogleMapsWidgetState extends State<GoogleMapsWidget> {
                         color: Colors.white,
                       ),
                     ),
-                    onTap: () {},
+                    onTap: () {
+                      widget.onClick(true);
+                    },
                   ),
                   GestureDetector(
                     child: Container(
