@@ -9,18 +9,18 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
-      drawer: AppDrawer(),
+      //drawer: AppDrawer(),
       appBar: AppBar(
         title: const Text("Parcours"),
       ),
-      floatingActionButton: FloatingActionButton(
+      /*floatingActionButton: FloatingActionButton(
         onPressed: () {},
         backgroundColor: const Color(0xFFAE9387),
         child: const Icon(
           Icons.add,
           color: Colors.white,
         ),
-      ),
+      ),*/
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
         child: ListView.separated(

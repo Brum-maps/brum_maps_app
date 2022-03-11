@@ -1,3 +1,5 @@
+import 'package:brummaps/home/home.dart';
+import 'package:brummaps/home/widget/drawer.dart';
 import 'package:brummaps/tinder/widget/card_provider.dart';
 import 'package:brummaps/tinder/widget/tinder_card.dart';
 import 'package:flutter/material.dart';
@@ -12,9 +14,26 @@ class TinderPage extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (context) => CardProvider(),
       child: Scaffold(
+        drawer: AppDrawer(),
         appBar: AppBar(
+          iconTheme: const IconThemeData(
+            color: Colors.black
+          ),
           elevation: 0,
           backgroundColor: Colors.transparent,
+          actions: [
+            Padding(
+              padding: const EdgeInsets.all(15),
+              child: IconButton(
+                  icon: const Icon(Icons.route_rounded),
+                onPressed: (){
+                    Navigator.of(context).push(MaterialPageRoute<Widget>(builder: (context ){
+                      return HomePage();
+                    }));
+                },
+              ),
+            )
+          ],
         ),
         body: SafeArea(
           child: Column(
