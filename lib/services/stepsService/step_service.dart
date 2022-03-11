@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:brummaps/model/model.dart';
 import 'package:http/http.dart' as http;
 
 class StepsService {
@@ -10,16 +11,14 @@ class StepsService {
     return _instance!;
   }
 
-  Future<Map<String, dynamic>> getSteps(int limit) async {
+  Future<List<Step>> getSteps(int limit) async {
     String url = "http://localhost:3000/bru-maps/step/randomSteps/$limit";
     http.Response response = await http.get(Uri.parse(url));
 
-    print(response.body);
+    var json = jsonDecode(response.body);
 
-    Map<String, dynamic> json = jsonDecode(response.body);
+    List<Step> steps = json.map((e) => Step.fromJson(e));
 
-    print(json);
-
-    return json;
+    return steps;
   }
 }

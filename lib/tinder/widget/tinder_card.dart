@@ -4,10 +4,18 @@ import 'package:brummaps/tinder/widget/card_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:brummaps/model/model.dart' as model;
 
 class TinderCard extends StatefulWidget {
   final bool isLiked;
-  const TinderCard({Key? key, this.isLiked = false}) : super(key: key);
+  final bool isFront;
+  final model.Step step;
+  const TinderCard(
+      {Key? key,
+      this.isLiked = false,
+      required this.step,
+      required this.isFront})
+      : super(key: key);
 
   @override
   State<TinderCard> createState() => _TinderCardState();
@@ -27,6 +35,10 @@ class _TinderCardState extends State<TinderCard> {
 
   @override
   Widget build(BuildContext context) {
+    return widget.isFront ? buildFrontCard() : buildCard();
+  }
+
+  Widget buildFrontCard() {
     return GestureDetector(
       onPanStart: (details) {
         Provider.of<CardProvider>(context, listen: false)
@@ -58,14 +70,46 @@ class _TinderCardState extends State<TinderCard> {
           duration: Duration(milliseconds: milliseconds),
           child: Container(
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15),
-                image: const DecorationImage(
-                  image: AssetImage("assets/images/MAPS.png"),
-                  fit: BoxFit.cover,
-                )),
+              borderRadius: BorderRadius.circular(15),
+              boxShadow: [
+                BoxShadow(
+                  color: const Color(0xFFAE9387).withOpacity(0.05),
+                  blurRadius: 10,
+                  spreadRadius: 5,
+                  offset: Offset(0, 2),
+                )
+              ],
+              image: const DecorationImage(
+                image: AssetImage("assets/images/MAPS.png"),
+                fit: BoxFit.cover,
+              ),
+            ),
+            child: Container(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Expanded(child: Container()),
+                  Text(widget.step.title ?? ""),
+                ],
+              ),
+            ),
           ),
         );
       }),
+    );
+  }
+
+  Widget buildCard() {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(15),
+      child: Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/images/MAPS.png"),
+            fit: BoxFit.cover,
+          ),
+        ),
+      ),
     );
   }
 }

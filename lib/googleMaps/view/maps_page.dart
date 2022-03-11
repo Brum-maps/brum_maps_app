@@ -13,6 +13,8 @@ class MapsPage extends StatefulWidget {
 
 class _MapsPageState extends State<MapsPage> {
   double _opacity = 0;
+  bool showItinary = true;
+  String textButton = "Démarrer";
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -28,31 +30,48 @@ class _MapsPageState extends State<MapsPage> {
             // LatLng(48.849784, 2.392003)
             children: [
               GoogleMapsWidget(
-                // startLatitude: 48.849784,
-                // startLongitude: 2.392003,
-                // destinationLatitude: 48.859784,
-                // destinationLongitude: 2.402003,
+                showItinary: showItinary,
                 steps: steps,
+                onClick: (value) {
+                  setState(() {
+                    textButton = "Fermer";
+                    _opacity = 0;
+                    showItinary = value;
+                  });
+                },
               ),
-              // Scaffold(
-              //   backgroundColor: Colors.black.withOpacity(_opacity),
-              //   appBar: AppBar(
-              //     leading: IconButton(
-              //       icon: const Icon(
-              //         Icons.close_rounded,
-              //         color: Colors.black,
-              //       ),
-              //       onPressed: () => Navigator.of(context).pop(),
-              //     ),
-              //     backgroundColor: Colors.transparent,
-              //     elevation: 0,
-              //   ),
-              //   body: StepPage(
-              //     onScroll: (opacity) => setState(() {
-              //       _opacity = opacity;
-              //     }),
-              //   ),
-              // ),
+              if (showItinary)
+                Scaffold(
+                  backgroundColor: Colors.black.withOpacity(_opacity),
+                  appBar: AppBar(
+                    leading: IconButton(
+                      icon: const Icon(
+                        Icons.close_rounded,
+                        color: Colors.black,
+                      ),
+                      onPressed: () => textButton == "Fermer"
+                          ? setState(() {
+                              showItinary = false;
+                            })
+                          : Navigator.of(context).pop(),
+                    ),
+                    backgroundColor: Colors.transparent,
+                    elevation: 0,
+                  ),
+                  body: StepPage(
+                    onScroll: (opacity) => setState(
+                      () {
+                        _opacity = opacity;
+                      },
+                    ),
+                    textButton: textButton,
+                    onClick: (value) {
+                      setState(() {
+                        showItinary = value;
+                      });
+                    },
+                  ),
+                ),
             ],
           ),
         );

@@ -15,6 +15,7 @@ class CardProvider extends ChangeNotifier {
   bool get isDragging => _isDragging;
   Offset get position => _position;
   double get angle => _angle;
+  // List<step.Step>? get steps => step;
 
   void setScreenSize(Size screenSize) => _screenSize = screenSize;
 
@@ -75,6 +76,8 @@ class CardProvider extends ChangeNotifier {
     _angle = 20;
     _position += Offset(2 * _screenSize.width, 0);
 
+    _nextCard();
+
     notifyListeners();
   }
 
@@ -82,10 +85,16 @@ class CardProvider extends ChangeNotifier {
     _angle = -20;
     _position += Offset(-(2 * _screenSize.width), 0);
 
+    _nextCard();
+
     notifyListeners();
   }
 
   Future<void> _nextCard() async {
-    
+    if (steps == null || steps!.isEmpty) return;
+
+    await Future.delayed(const Duration(milliseconds: 200));
+    steps!.removeLast();
+    resetPosition();
   }
 }
