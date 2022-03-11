@@ -20,9 +20,25 @@ class TinderPage extends StatelessWidget {
         return ChangeNotifierProvider(
           create: (context) => CardProvider(steps: state.steps),
           child: Scaffold(
+            drawer: AppDrawer(),
             appBar: AppBar(
+              iconTheme: const IconThemeData(
+                color: Colors.black
+              ),
               elevation: 0,
               backgroundColor: Colors.transparent,
+              actions: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                  child: IconButton(onPressed: (){
+                    Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) {
+                        return const HomePage();
+                      },)
+                    );
+                  }, icon: Icon(Icons.route_rounded)),
+                )
+              ],
             ),
             body: SafeArea(
               child: Column(

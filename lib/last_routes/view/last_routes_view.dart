@@ -2,13 +2,14 @@ import 'package:brummaps/implementation/iroute_provider.dart';
 import 'package:brummaps/last_routes/cubit/last_routes_cubit.dart';
 import 'package:brummaps/mock/mock_routes_controller.dart';
 import 'package:brummaps/model/model.dart' as m;
+import 'package:brummaps/services/web/route_services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class LastRoutesPage extends StatelessWidget {
   LastRoutesPage({Key? key}) : super(key: key);
-  final IRouteProvider _iRouteProvider = MockRouteController();
+  final IRouteProvider _iRouteProvider = LocalRouteController();
 
   @override
   Widget build(BuildContext context) {
