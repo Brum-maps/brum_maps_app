@@ -3,6 +3,7 @@ import 'package:brummaps/services/googleMaps/google_maps_service.dart';
 import 'package:brummaps/services/stepsService/step_service.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 part 'tinder_state.dart';
 
@@ -17,35 +18,51 @@ class TinderCubit extends Cubit<TinderState> {
     return imageUrl;
   }
 
-  Future<void> getTinderCardList() async {
-    List<Step> steps = [
-      Step(
-        title: "Arc de Triomphe",
-        desc: "Ceci est l'arc de triomphe",
-        latLng: const LatLng(48.859784, 2.402003),
-      ),
-      Step(
-        title: "Arc de Triomphe",
-        desc: "Ceci est l'arc de triomphe",
-        latLng: const LatLng(48.869784, 2.412003),
-      ),
-      Step(
-        title: "Arc de Triomphe",
-        desc: "Ceci est l'arc de triomphe",
-        latLng: const LatLng(48.879784, 2.422003),
-      ),
-      Step(
-        title: "Arc de Triomphe",
-        desc: "Ceci est l'arc de triomphe",
-        latLng: const LatLng(48.889784, 2.432003),
-      ),
-      Step(
-        title: "Arc de Triomphe",
-        desc: "Ceci est l'arc de triomphe",
-        latLng: const LatLng(48.899784, 2.442003),
-      ),
-    ];
-    //await stepsService.getSteps(20);
+  Future sendItinary(List<Step> steps) async {
+    Map<String, dynamic> json = {
+      "name": "test",
+      "description": "",
+      "isActive": true,
+      "isPublic": false,
+      "stepToSave":
+          steps.map((e) => {"id": e.id, "order": steps.indexOf(e)}).toList(),
+    };
+    // List result = [];
+    // List tmp = List.from(steps);
+    // for (int j = 0; j < tmp.length; j++) {
+    //   var current = tmp[j];
+    //   List<double> sorted = [];
+    //   for (int i = j + 1; i < steps.length; i++) {
+    //     var next = steps[i];
+
+    //     double distanceInMeters = await Geolocator.bearingBetween(
+    //       current.latLng!.latitude,
+    //       current.latLng!.longitude,
+    //       next.latLng!.latitude,
+    //       next.latLng!.longitude,
+    //     );
+
+    //     sorted.add(distanceInMeters);
+    //   }
+    //   double distTmp = 999999;
+    //   int minIndex = 0;
+    //   for (double s in sorted) {
+    //     if (s < distTmp) {
+    //       distTmp = s;
+    //       minIndex = sorted.indexOf(s);
+    //     }
+    //   }
+
+    //   result.add(steps[minIndex]);
+    stepsService.sendSteps(json);
+
+    // var sortedStep =
+  }
+
+  Future<void> getTinderCardList({bool reload = false}) async {
+    if (reload) emit(const TinderState.initial());
+
+    var steps = await stepsService.getSteps(20);
 
     emit(TinderState.stepLoaded(steps));
   }

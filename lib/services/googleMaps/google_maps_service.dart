@@ -10,8 +10,6 @@ class GoogleMapsService {
 
     http.Response res = await http.get(uri);
 
-    print(res.body);
-
     Map<String, dynamic> json = jsonDecode(res.body);
 
     return;

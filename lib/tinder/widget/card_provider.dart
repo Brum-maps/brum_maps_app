@@ -9,6 +9,7 @@ class CardProvider extends ChangeNotifier {
   Offset _position = Offset.zero;
   Size _screenSize = Size.zero;
   List<step.Step>? steps;
+  List<step.Step> likedSteps = [];
 
   CardProvider({this.steps});
 
@@ -75,6 +76,8 @@ class CardProvider extends ChangeNotifier {
   void like() {
     _angle = 20;
     _position += Offset(2 * _screenSize.width, 0);
+
+    likedSteps.add(steps!.last);
 
     _nextCard();
 

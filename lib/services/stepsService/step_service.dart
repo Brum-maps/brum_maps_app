@@ -12,13 +12,20 @@ class StepsService {
   }
 
   Future<List<Step>> getSteps(int limit) async {
-    String url = "http://localhost:3000/bru-maps/step/randomSteps/$limit";
+    String url = "http://10.33.3.195:3000/bru-maps/step/randomSteps/$limit";
     http.Response response = await http.get(Uri.parse(url));
 
     var json = jsonDecode(response.body);
 
-    List<Step> steps = json.map((e) => Step.fromJson(e));
+    List<Step> steps = (json as List).map((e) => Step.fromJson(e)).toList();
 
     return steps;
+  }
+
+  Future<void> sendSteps(Map<String, dynamic> json) async {
+    var body = jsonEncode(json);
+    String url = "http://10.33.3.195:3000/bru-maps/itinerary/custom";
+
+    http.Response response = await http.post(Uri.parse(url), body: body);
   }
 }

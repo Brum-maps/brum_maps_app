@@ -1,5 +1,7 @@
 import 'dart:math';
+import 'dart:typed_data';
 
+import 'package:brummaps/tinder/cubit/tinder_cubit.dart';
 import 'package:brummaps/tinder/widget/card_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -76,11 +78,11 @@ class _TinderCardState extends State<TinderCard> {
                   color: const Color(0xFFAE9387).withOpacity(0.05),
                   blurRadius: 10,
                   spreadRadius: 5,
-                  offset: Offset(0, 2),
+                  offset: const Offset(0, 2),
                 )
               ],
-              image: const DecorationImage(
-                image: AssetImage("assets/images/MAPS.png"),
+              image: DecorationImage(
+                image: NetworkImage(widget.step.imgUrl!),
                 fit: BoxFit.cover,
               ),
             ),
@@ -89,7 +91,13 @@ class _TinderCardState extends State<TinderCard> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Expanded(child: Container()),
-                  Text(widget.step.title ?? ""),
+                  Container(
+                    color: Colors.white,
+                    child: Text(
+                      widget.step.title ?? "",
+                      style: const TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -103,9 +111,9 @@ class _TinderCardState extends State<TinderCard> {
     return ClipRRect(
       borderRadius: BorderRadius.circular(15),
       child: Container(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage("assets/images/MAPS.png"),
+            image: NetworkImage(widget.step.imgUrl!),
             fit: BoxFit.cover,
           ),
         ),
