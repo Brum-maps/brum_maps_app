@@ -2,11 +2,18 @@ import 'package:brummaps/googleMaps/cubit/google_maps_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'package:brummaps/model/model.dart' as model;
+
 class StepPage extends StatelessWidget {
   final void Function(double opacity)? onScroll;
   final void Function(bool) onClick;
   final String textButton;
-  const StepPage({Key? key, this.onScroll, required this.onClick, required this.textButton})
+  final List<model.Step> steps;
+  const StepPage(
+      {Key? key,
+      this.onScroll,
+      required this.onClick,
+      required this.textButton, required this.steps})
       : super(key: key);
 
   @override
@@ -15,12 +22,12 @@ class StepPage extends StatelessWidget {
       create: (context) => GoogleMapsCubit()..laodSteps(),
       child: BlocBuilder<GoogleMapsCubit, GoogleMapsState>(
           builder: (context, state) {
-        var steps = state.steps;
-        if (steps == null) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        }
+        // var steps = state.steps;
+        // if (steps == null) {
+        //   return const Center(
+        //     child: CircularProgressIndicator(),
+        //   );
+        // }
         return NotificationListener<ScrollNotification>(
           onNotification: (notification) {
             var pixels = notification.metrics.pixels;

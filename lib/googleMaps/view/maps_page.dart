@@ -1,11 +1,13 @@
 import 'package:brummaps/googleMaps/cubit/google_maps_cubit.dart';
 import 'package:brummaps/googleMaps/google_maps.dart';
 import 'package:flutter/material.dart';
+import 'package:brummaps/model/model.dart' as model;
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MapsPage extends StatefulWidget {
-  static Page page() => const MaterialPage<Widget>(child: MapsPage());
-  const MapsPage({Key? key}) : super(key: key);
+  final List<model.Step> steps;
+  // static Page page() => const MaterialPage<Widget>(child: MapsPage());
+  const MapsPage({Key? key, required this.steps}) : super(key: key);
 
   @override
   State<MapsPage> createState() => _MapsPageState();
@@ -21,17 +23,17 @@ class _MapsPageState extends State<MapsPage> {
       create: ((context) => GoogleMapsCubit()..laodSteps()),
       child: BlocBuilder<GoogleMapsCubit, GoogleMapsState>(
           builder: (context, state) {
-        var steps = state.steps;
-        if (steps == null) {
-          return Container();
-        }
+        // var steps = state.steps;
+        // if (steps == null) {
+        //   return Container();
+        // }
         return Scaffold(
           body: Stack(
             // LatLng(48.849784, 2.392003)
             children: [
               GoogleMapsWidget(
                 showItinary: showItinary,
-                steps: steps,
+                steps: widget.steps,
                 onClick: (value) {
                   setState(() {
                     textButton = "Fermer";
@@ -59,6 +61,7 @@ class _MapsPageState extends State<MapsPage> {
                     elevation: 0,
                   ),
                   body: StepPage(
+                    steps: widget.steps,
                     onScroll: (opacity) => setState(
                       () {
                         _opacity = opacity;

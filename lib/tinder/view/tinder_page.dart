@@ -1,4 +1,6 @@
 import 'package:brummaps/googleMaps/view/maps_page.dart';
+import 'package:brummaps/home/view/home_view.dart';
+import 'package:brummaps/home/widget/drawer.dart';
 import 'package:brummaps/tinder/cubit/tinder_cubit.dart';
 import 'package:brummaps/tinder/widget/card_provider.dart';
 import 'package:brummaps/tinder/widget/tinder_card.dart';
@@ -22,21 +24,21 @@ class TinderPage extends StatelessWidget {
           child: Scaffold(
             drawer: AppDrawer(),
             appBar: AppBar(
-              iconTheme: const IconThemeData(
-                color: Colors.black
-              ),
+              iconTheme: const IconThemeData(color: Colors.black),
               elevation: 0,
               backgroundColor: Colors.transparent,
               actions: [
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                  child: IconButton(onPressed: (){
-                    Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) {
-                        return const HomePage();
-                      },)
-                    );
-                  }, icon: Icon(Icons.route_rounded)),
+                  child: IconButton(
+                      onPressed: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) {
+                            return const HomePage();
+                          },
+                        ));
+                      },
+                      icon: Icon(Icons.route_rounded)),
                 )
               ],
             ),
@@ -85,6 +87,8 @@ class TinderPage extends StatelessWidget {
 
   Widget buildCards(BuildContext context) {
     List<model.Step>? steps = Provider.of<CardProvider>(context).steps;
+    List<model.Step>? likedSteps =
+        Provider.of<CardProvider>(context).likedSteps;
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -96,34 +100,58 @@ class TinderPage extends StatelessWidget {
                         isFront: steps.last == e,
                       ))
                   .toList(),
-              // const [
-              //   TinderCard(),
-              // ],
             )
           : Center(
-              child: TextButton(
-                onPressed: () async {
-                  context.read<TinderCubit>().sendItinary(context.read<CardProvider>().likedSteps);
-                  Navigator.of(context)
-                      .push(
-                        MaterialPageRoute(
-                          builder: (context) => const MapsPage(),
-                          fullscreenDialog: true,
-                        ),
-                      )
-                      .then((_) => context
-                          .read<TinderCubit>()
-                          .getTinderCardList(reload: true));
-                },
-                style: TextButton.styleFrom(
-                    backgroundColor: const Color(0xFFAE9387)),
-                child: const Padding(
-                  padding: EdgeInsets.all(10),
-                  child: Text(
-                    "Générer mon parcours !",
-                    style: TextStyle(color: Colors.white),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  TextButton(
+                    onPressed: () async {
+                      List<model.Step> newStep =
+                          BlocProvider.of<TinderCubit>(context)
+                              .sendItinary(likedSteps);
+                      Navigator.of(context)
+                          .push(
+                            MaterialPageRoute(
+                              builder: (context) => MapsPage(
+                                steps: newStep,
+                              ),
+                              fullscreenDialog: true,
+                            ),
+                          )
+                          .then((_) => context
+                              .read<TinderCubit>()
+                              .getTinderCardList(reload: true));
+                    },
+                    style: TextButton.styleFrom(
+                        backgroundColor: const Color(0xFFAE9387)),
+                    child: const Padding(
+                      padding: EdgeInsets.all(10),
+                      child: Text(
+                        "Générer mon parcours !",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
                   ),
-                ),
+                  SizedBox(
+                    height: 40,
+                  ),
+                  TextButton(
+                      style: TextButton.styleFrom(
+                          backgroundColor: const Color(0xFFAE9387)),
+                      onPressed: () => Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => const TinderPage(),
+                            ),
+                          ),
+                      child: const Padding(
+                        padding: EdgeInsets.all(10),
+                        child: Text(
+                          "Refaire une selection",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ))
+                ],
               ),
             ),
     );

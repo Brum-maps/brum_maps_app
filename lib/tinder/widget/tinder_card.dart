@@ -71,6 +71,7 @@ class _TinderCardState extends State<TinderCard> {
           transform: rotatedMatrix..translate(position.dx, position.dy),
           duration: Duration(milliseconds: milliseconds),
           child: Container(
+            clipBehavior: Clip.antiAlias,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(15),
               boxShadow: [
@@ -86,20 +87,22 @@ class _TinderCardState extends State<TinderCard> {
                 fit: BoxFit.cover,
               ),
             ),
-            child: Container(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Expanded(child: Container()),
-                  Container(
-                    color: Colors.white,
-                    child: Text(
-                      widget.step.title ?? "",
-                      style: const TextStyle(fontWeight: FontWeight.bold),
-                    ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Expanded(child: Container()),
+                Container(
+                  width: double.infinity,
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+                  color: Colors.white,
+                  child: Text(
+                    widget.step.title ?? "",
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold, fontSize: 20),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         );

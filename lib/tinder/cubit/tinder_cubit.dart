@@ -18,7 +18,35 @@ class TinderCubit extends Cubit<TinderState> {
     return imageUrl;
   }
 
-  Future sendItinary(List<Step> steps) async {
+  List<Step> sortedStep(List<Step> lastStep) {
+    if (lastStep.isEmpty) return [];
+    Step current = lastStep[0];
+    List<double> sorted = [];
+    for (int i = 1; i < lastStep.length; i++) {
+      var next = lastStep[i];
+
+      double distanceInMeters = Geolocator.bearingBetween(
+        current.latLng!.latitude,
+        current.latLng!.longitude,
+        next.latLng!.latitude,
+        next.latLng!.longitude,
+      );
+
+      sorted.add(distanceInMeters);
+    }
+    double distTmp = 999999;
+    int minIndex = 0;
+    for (double s in sorted) {
+      if (s < distTmp) {
+        distTmp = s;
+        minIndex = sorted.indexOf(s);
+      }
+    }
+
+    return [lastStep[minIndex], ...sortedStep(lastStep..removeAt(minIndex))];
+  }
+
+  List<Step> sendItinary(List<Step> steps) {
     Map<String, dynamic> json = {
       "name": "test",
       "description": "",
@@ -27,6 +55,7 @@ class TinderCubit extends Cubit<TinderState> {
       "stepToSave":
           steps.map((e) => {"id": e.id, "order": steps.indexOf(e)}).toList(),
     };
+
     // List result = [];
     // List tmp = List.from(steps);
     // for (int j = 0; j < tmp.length; j++) {
@@ -55,6 +84,8 @@ class TinderCubit extends Cubit<TinderState> {
 
     //   result.add(steps[minIndex]);
     stepsService.sendSteps(json);
+
+    return sortedStep(steps);
 
     // var sortedStep =
   }
