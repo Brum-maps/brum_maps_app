@@ -15,6 +15,6 @@ class MockAuthenthicationController implements IAuthController {
 
   @override
   void logout() {
-    // TODO: implement logout
+    return;
   }
 }

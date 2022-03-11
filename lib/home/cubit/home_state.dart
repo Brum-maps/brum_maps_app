@@ -6,12 +6,13 @@ enum HomeStatus {
   loaded,
 }
 class HomeState extends Equatable {
-
   final HomeStatus status;
+  final List<Route> routes;
 
-  HomeState({required this.status});
+  const HomeState({required this.status, required this.routes});
   @override
   List<Object> get props => [
-    status
+    status,
+    routes
   ];
 }

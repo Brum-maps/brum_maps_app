@@ -1,6 +1,8 @@
+import 'package:brummaps/authentication/authentication.dart';
 import 'package:brummaps/last_routes/view/last_routes_view.dart';
 import 'package:brummaps/user_profile/user_profile.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AppDrawer extends StatelessWidget {
@@ -64,6 +66,7 @@ class AppDrawer extends StatelessWidget {
                         Icons.logout
                     ),
                     onTap: (){
+                      context.read<AuthenticationCubit>().logout();
                     },
                   ),
                 ],
