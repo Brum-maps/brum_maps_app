@@ -16,16 +16,16 @@ class MockRouteController implements IRouteProvider {
   Future<List<Route>>? fetchAll() async {
     print("I'm here in MockRouteController");
     return [
-      Route(title: "This is a Route", description: "Hmmmm this is a description I don't really know what else to tell you", steps: [], distance: 56, duration: '120'),
-      Route(title: "This is a Route 2", description: "Hmmmm this is a description I don't really know what else to tell you", steps: [], distance: 32, duration: '120'),
-      Route(title: "This is a Route", description: "Hmmmm this is a description I don't really know what else to tell you", steps: [], distance: 90, duration: '120'),
-      Route(title: "This is a Route", description: "Hmmmm this is a description I don't really know what else to tell you", steps: [], distance: 45, duration: '120'),
-      Route(title: "This is a Route", description: "Hmmmm this is a description I don't really know what else to tell you", steps: [], distance: 67, duration: '120'),
+      Route(id: "", title: "This is a Route", description: "Hmmmm this is a description I don't really know what else to tell you", steps: [], distance: 56, duration: '120'),
+      Route(id: "", title: "This is a Route 2", description: "Hmmmm this is a description I don't really know what else to tell you", steps: [], distance: 32, duration: '120'),
+      Route(id: "", title: "This is a Route", description: "Hmmmm this is a description I don't really know what else to tell you", steps: [], distance: 90, duration: '120'),
+      Route(id: "", title: "This is a Route", description: "Hmmmm this is a description I don't really know what else to tell you", steps: [], distance: 45, duration: '120'),
+      Route(id: "", title: "This is a Route", description: "Hmmmm this is a description I don't really know what else to tell you", steps: [], distance: 67, duration: '120'),
     ];
   }
 
   @override
-  Route? getRoute(String id) {
+  Future<Route?> getRoute(String id) {
     // TODO: implement getRoute
     throw UnimplementedError();
   }

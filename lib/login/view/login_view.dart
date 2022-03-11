@@ -19,27 +19,29 @@ class LoginPage extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 15),
           child: Form(
             key: _formKey,
-            child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    child: Image.asset("assets/images/MAPS.png"),
-                  ),
-                  CustomeFormField(
-                    controller: TextEditingController(),
-                    label: 'username',
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  CustomeFormField(
-                    controller: TextEditingController(),
-                    label: 'password',
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  InkWell(
+            child: SingleChildScrollView(
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      child: Image.asset("assets/images/MAPS.png"),
+                    ),
+                    CustomeFormField(
+                      controller: TextEditingController(),
+                      label: 'username',
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    CustomeFormField(
+                      obscure: true,
+                      controller: TextEditingController(),
+                      label: 'password',
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    InkWell(
                       onTap: () {
                         context
                             .read<AuthenticationCubit>()
@@ -47,23 +49,21 @@ class LoginPage extends StatelessWidget {
                       },
                       child: Container(
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          color: const Color(0xFFAE9387)
+                            borderRadius: BorderRadius.circular(20),
+                            color: const Color(0xFFAE9387)),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 10, horizontal: 15),
+                          child: Text(
+                            'LOGIN',
+                            style: GoogleFonts.montserrat(
+                                color: Colors.white, fontSize: 20),
+                          ),
                         ),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 10,
-                              horizontal: 15
-                            ),
-                            child: Text(
-                              'LOGIN',
-                              style: GoogleFonts.montserrat(
-                                color: Colors.white,
-                                fontSize: 20
-                              ),
-                            ),
-                          ),),)
-                ]),
+                      ),
+                    )
+                  ]),
+            ),
           ),
         ),
       ),

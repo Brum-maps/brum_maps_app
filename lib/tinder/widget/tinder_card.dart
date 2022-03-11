@@ -42,6 +42,19 @@ class _TinderCardState extends State<TinderCard> {
 
   Widget buildFrontCard() {
     return GestureDetector(
+      onTap: () {
+        showDialog(
+            context: context,
+            builder: (context) => AlertDialog(
+                  title: Column(
+                    children: [
+                      Image.network(widget.step.imgUrl!),
+                      Text(widget.step.desc!),
+                      Text("Note moyenne: ${widget.step.mark}")
+                    ],
+                  ),
+                ));
+      },
       onPanStart: (details) {
         Provider.of<CardProvider>(context, listen: false)
             .startPosition(details);

@@ -56,7 +56,9 @@ class TinderPage extends StatelessWidget {
                       var steps = state.steps;
                       if (steps == null) {
                         return const Center(
-                          child: CircularProgressIndicator(),
+                          child: CircularProgressIndicator(
+                            color: Color(0xFFAE9387),
+                          ),
                         );
                       }
                       return buildCards(context);

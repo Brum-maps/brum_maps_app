@@ -7,13 +7,16 @@ import 'package:brummaps/model/model.dart' as model;
 class StepPage extends StatelessWidget {
   final void Function(double opacity)? onScroll;
   final void Function(bool) onClick;
+  final Widget? header;
   final String textButton;
   final List<model.Step> steps;
   const StepPage(
       {Key? key,
       this.onScroll,
       required this.onClick,
-      required this.textButton, required this.steps})
+      required this.textButton,
+      required this.steps,
+      this.header})
       : super(key: key);
 
   @override
@@ -49,9 +52,11 @@ class StepPage extends StatelessWidget {
               return Column(
                 children: [
                   if (index == 0)
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height / 2,
-                    ),
+                    header != null
+                        ? header!
+                        : SizedBox(
+                            height: MediaQuery.of(context).size.height / 2,
+                          ),
                   if (index != 0)
                     Container(
                       height: 40,
@@ -61,19 +66,32 @@ class StepPage extends StatelessWidget {
                         // border: Border.symmetric(vertical: BorderSide()),
                       ),
                     ),
-                  Container(
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(5)),
-                    padding: const EdgeInsets.all(20),
-                    margin: const EdgeInsets.symmetric(horizontal: 20),
-                    child: Column(
-                      children: [
-                        Text(steps[index].title ?? ""),
-                      ],
-                    ),
-                  ),
+                  GestureDetector(
+                      child: Container(
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(5)),
+                        padding: const EdgeInsets.all(20),
+                        margin: const EdgeInsets.symmetric(horizontal: 20),
+                        child: Column(
+                          children: [
+                            Text(steps[index].title ?? ""),
+                          ],
+                        ),
+                      ),
+                      onTap: () {
+                        showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                                  title: Column(
+                                    children: [
+                                      Image.network(steps[index].imgUrl!),
+                                      Text(steps[index].desc!),
+                                    ],
+                                  ),
+                                ));
+                      }),
                   if (index == steps.length - 1)
                     Container(
                       padding: const EdgeInsets.only(top: 40),
